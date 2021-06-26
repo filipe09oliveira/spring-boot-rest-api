@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.com.teste.teste.models.Cliente;
+import br.com.teste.teste.models.Conta;
 import br.com.teste.teste.models.Movimentacao;
+import br.com.teste.teste.repository.ClienteRepository;
+import br.com.teste.teste.repository.ContaRepository;
 import br.com.teste.teste.repository.MovimentacaoRepository;
 
 @RestController
@@ -17,6 +22,10 @@ public class MovimentacaoController {
 	
 	@Autowired
 	MovimentacaoRepository movimentacaoRepository;
+	@Autowired
+	ClienteRepository clienteRepository;
+	@Autowired
+	ContaRepository contaRepository;
 	
 	@GetMapping("/list")
 	public List<Movimentacao> listAll(){
@@ -28,9 +37,24 @@ public class MovimentacaoController {
 		return movimentacaoRepository.findById(id);
 	}
 	
-	@PostMapping("/create")
-	public Movimentacao create(@RequestBody Movimentacao movimentacao) {
-		return movimentacaoRepository.save(movimentacao);
+	@PostMapping("/create/{cliente_id}/{conta_id}")
+	public Movimentacao create(@RequestBody Movimentacao movimentacao, @PathVariable(value="cliente_id") long cliente_id, @PathVariable(value="conta_id") long conta_id) {
+		movimentacaoRepository.save(movimentacao);
+		
+		Cliente cliente = clienteRepository.findById(cliente_id);
+		Conta conta = contaRepository.findById(conta_id);		
+		movimentacao.setCliente(cliente);
+		movimentacao.setConta(conta);
+		
+		double valorConta = conta.getValor();
+		double valorMovimentacao = movimentacao.getValor();
+		double resultado = valorConta - valorMovimentacao;
+		
+		conta.setValor(resultado);
+		
+		contaRepository.save(conta);
+			
+		return movimentacao;
 	}
 		
 

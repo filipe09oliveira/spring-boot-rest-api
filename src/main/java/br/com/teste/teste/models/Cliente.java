@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -30,8 +31,10 @@ public class Cliente {
 	private String cidade;
 	private String estado;
 	private Integer numero;
+	@PrimaryKeyJoinColumn
 	@OneToMany
 	private List<Conta> conta;
+	@PrimaryKeyJoinColumn
 	@OneToMany
 	private List<Movimentacao> movimentacao;
 	

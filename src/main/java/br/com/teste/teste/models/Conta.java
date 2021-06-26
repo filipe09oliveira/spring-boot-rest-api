@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -19,7 +20,9 @@ public class Conta {
 	private String agencia;
 	private String conta;
 	private String banco;
-	private Float valor;
+	private double valor;
+	
+	@PrimaryKeyJoinColumn
 	@ManyToOne
 	private Cliente cliente;
 	
@@ -64,11 +67,11 @@ public class Conta {
 		this.banco = banco;
 	}
 	
-	public Float getValor() {
+	public double getValor() {
 		return valor;
 	}
 
-	public void setValor(Float valor) {
+	public void setValor(double valor) {
 		this.valor = valor;
 	}
 

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -18,12 +19,14 @@ private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@PrimaryKeyJoinColumn
 	@ManyToOne
 	private Cliente cliente;
+	@PrimaryKeyJoinColumn
 	@ManyToOne
 	private Conta conta;
-	private Float valor;
-	private Date data;
+	private double valor;
+	private Date data = new Date();
 
 	
 	public long getId() {
@@ -50,11 +53,11 @@ private static final long serialVersionUID = 1L;
 		this.conta = conta;
 	}
 
-	public Float getValor() {
+	public double getValor() {
 		return valor;
 	}
 
-	public void setValor(Float valor) {
+	public void setValor(double valor) {
 		this.valor = valor;
 	}
 
